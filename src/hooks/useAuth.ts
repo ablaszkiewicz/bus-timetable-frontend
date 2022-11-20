@@ -18,6 +18,11 @@ export const useAuth = () => {
     return response.data;
   };
 
+  const githubLogin = async (code: string) => {
+    const response = await axios.post('auth/github/login', { code });
+    return response.data;
+  };
+
   const register = async (dto: CreateUserDto) => {
     const response = await axios.post('auth/register', dto);
     return response.data;
@@ -30,8 +35,17 @@ export const useAuth = () => {
 
   const googleLoginMutation = useMutation(googleLogin, {
     onSuccess: async (response: LoginResponse) => {
-      loginToStore(response.email, response.token);
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.token;
+      onSuccessfulLogin(response);
+      toast({
+        title: 'Logged in',
+        status: 'success',
+      });
+    },
+  });
+
+  const githubLoginMutation = useMutation(githubLogin, {
+    onSuccess: async (response: LoginResponse) => {
+      onSuccessfulLogin(response);
       toast({
         title: 'Logged in',
         status: 'success',
@@ -51,12 +65,7 @@ export const useAuth = () => {
 
   const loginMutation = useMutation(login, {
     onSuccess: async (response: LoginResponse) => {
-      loginToStore(response.email, response.token);
-      axios.defaults.headers.common['Authoization'] = 'Bearer ' + response.token;
-      toast({
-        title: 'Logged in',
-        status: 'success',
-      });
+      onSuccessfulLogin(response);
     },
     onError: async () => {
       toast({
@@ -67,5 +76,16 @@ export const useAuth = () => {
     },
   });
 
-  return { googleLoginMutation, registerMutation, loginMutation };
+  const onSuccessfulLogin = (response: LoginResponse) => {
+    console.log(response);
+
+    loginToStore(response.email, response.token);
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.token;
+    toast({
+      title: 'Logged in',
+      status: 'success',
+    });
+  };
+
+  return { googleLoginMutation, githubLoginMutation, registerMutation, loginMutation };
 };

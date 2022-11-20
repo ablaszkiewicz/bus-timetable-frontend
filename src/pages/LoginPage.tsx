@@ -3,14 +3,16 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { GrGithub } from 'react-icons/gr';
+import LoginGithub from 'react-login-github';
 import { useAuth } from '../hooks/useAuth';
 
 export const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [googleIsLoading, googleSetItLoading] = useState(false);
+  const [githubIsLoading, githubSetItLoading] = useState(false);
 
-  const { googleLoginMutation, registerMutation, loginMutation } = useAuth();
+  const { googleLoginMutation, githubLoginMutation, registerMutation, loginMutation } = useAuth();
 
   const register = () => {
     registerMutation.mutate({ email, password });
@@ -25,6 +27,10 @@ export const LoginPage = () => {
       googleLoginMutation.mutate((tokenResponse as any).access_token);
     },
   });
+
+  const githubLogin = (code: string) => {
+    githubLoginMutation.mutate(code);
+  };
 
   return (
     <Flex w={'40%'} backgroundColor={'gray.700'} borderRadius={20} p={6} shadow={'xl'} flexDir={'row'} gap={8}>
@@ -47,24 +53,27 @@ export const LoginPage = () => {
       <Flex w={'50%'} direction={'column'} gap={2}>
         <Button
           onClick={() => {
-            setIsLoading(true);
+            googleSetItLoading(true);
             googleLogin();
           }}
           leftIcon={<FcGoogle />}
-          isLoading={isLoading}
+          isLoading={googleIsLoading}
         >
           Continue with Google
         </Button>
-        <Button
+        <LoginGithub clientId={'faaeeab1e2875e97f09f'} onSuccess={(response: any) => githubLogin(response.code)}>
+          Login
+        </LoginGithub>
+        {/* <Button
           onClick={() => {
-            setIsLoading(true);
+            googleSetItLoading(true);
             googleLogin();
           }}
           leftIcon={<GrGithub />}
-          isLoading={isLoading}
+          isLoading={githubIsLoading}
         >
           Continue with Github
-        </Button>
+        </Button> */}
         <Text w={'100%'} textAlign={'center'} opacity={0.6} as={'u'} cursor={'pointer'} fontSize={'sm'}>
           Or continue without logging in
         </Text>
