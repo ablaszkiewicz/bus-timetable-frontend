@@ -38,8 +38,8 @@ const config = {
 const theme = extendTheme({ config });
 const queryClient = new QueryClient();
 
-axios.defaults.baseURL = 'http://localhost:3001';
-//axios.defaults.baseURL = 'https://a4d7543gl0.execute-api.eu-central-1.amazonaws.com/dev';
+//axios.defaults.baseURL = 'http://localhost:3001';
+axios.defaults.baseURL = 'https://a4d7543gl0.execute-api.eu-central-1.amazonaws.com/dev';
 
 root.render(
   <GoogleOAuthProvider clientId='870055645934-kc6m3j3m7t512h1ve99cftf8faalupcr.apps.googleusercontent.com'>

@@ -36,20 +36,12 @@ export const useAuth = () => {
   const googleLoginMutation = useMutation(googleLogin, {
     onSuccess: async (response: LoginResponse) => {
       onSuccessfulLogin(response);
-      toast({
-        title: 'Logged in',
-        status: 'success',
-      });
     },
   });
 
   const githubLoginMutation = useMutation(githubLogin, {
     onSuccess: async (response: LoginResponse) => {
       onSuccessfulLogin(response);
-      toast({
-        title: 'Logged in',
-        status: 'success',
-      });
     },
   });
 
@@ -77,8 +69,6 @@ export const useAuth = () => {
   });
 
   const onSuccessfulLogin = (response: LoginResponse) => {
-    console.log(response);
-
     loginToStore(response.email, response.token);
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.token;
     toast({

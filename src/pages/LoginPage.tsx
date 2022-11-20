@@ -10,7 +10,7 @@ export const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [googleIsLoading, googleSetItLoading] = useState(false);
-  const [githubIsLoading, githubSetItLoading] = useState(false);
+  const [githubIsLoading, setGithubIsLoading] = useState(false);
 
   const { googleLoginMutation, githubLoginMutation, registerMutation, loginMutation } = useAuth();
 
@@ -30,6 +30,7 @@ export const LoginPage = () => {
 
   const githubLogin = (code: string) => {
     githubLoginMutation.mutate(code);
+    setGithubIsLoading(true);
   };
 
   return (
@@ -61,19 +62,16 @@ export const LoginPage = () => {
         >
           Continue with Google
         </Button>
-        <LoginGithub clientId={'faaeeab1e2875e97f09f'} onSuccess={(response: any) => githubLogin(response.code)}>
-          Login
-        </LoginGithub>
-        {/* <Button
-          onClick={() => {
-            googleSetItLoading(true);
-            googleLogin();
-          }}
-          leftIcon={<GrGithub />}
-          isLoading={githubIsLoading}
+        <LoginGithub
+          as={Button}
+          clientId={'faaeeab1e2875e97f09f'}
+          onSuccess={(response: any) => githubLogin(response.code)}
+          isLoading={googleIsLoading}
         >
-          Continue with Github
-        </Button> */}
+          <Button w={'100%'} leftIcon={<GrGithub />} isLoading={githubIsLoading}>
+            Continue with Github
+          </Button>
+        </LoginGithub>
         <Text w={'100%'} textAlign={'center'} opacity={0.6} as={'u'} cursor={'pointer'} fontSize={'sm'}>
           Or continue without logging in
         </Text>
