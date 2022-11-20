@@ -1,7 +1,8 @@
-import { Flex, IconButton, Spacer, TagRightIcon, Text } from '@chakra-ui/react';
-import { BusStop } from '../../models/BusStop';
+import { Flex, IconButton, Spacer, Text } from '@chakra-ui/react';
+import { BusStop } from '../../../models/BusStop';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
-import { useStore } from '../../zustand';
+import { useStore } from '../../../zustand';
+import { motion } from 'framer-motion';
 
 interface Props {
   busStop: BusStop;
@@ -15,7 +16,7 @@ export const Favourite = (props: Props) => {
   };
 
   return (
-    <Flex direction={'row'} backgroundColor={'gray.800'} p={3} borderRadius={7} alignItems={'center'}>
+    <Flex as={motion.div} direction={'row'} backgroundColor={'gray.800'} p={3} borderRadius={7} alignItems={'center'}>
       <Flex direction={'column'}>
         <Text>{props.busStop.name}</Text>
         <Text opacity={0.8} fontSize={'xs'}>

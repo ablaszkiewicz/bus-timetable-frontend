@@ -33,9 +33,9 @@ export const Search = () => {
   };
 
   return (
-    <Flex w={'100%'} backgroundColor={'gray.900'} borderRadius={15} borderBottomRadius={0} p={4} direction={'row'}>
-      <AutoComplete onChange={(stationName) => dispatchStation(stationName)}>
-        <AutoCompleteInput />
+    <Flex w={'100%'} borderRadius={15} borderBottomRadius={0} p={4} direction={'row'} zIndex={1}>
+      <AutoComplete onChange={(stationName) => dispatchStation(stationName)} openOnFocus>
+        <AutoCompleteInput placeholder={'Enter bus stop name...'} backgroundColor={'gray.900'} shadow={'dark-lg'} />
         <AutoCompleteList>
           {stations.map((station) => (
             <AutoCompleteItem key={(station as any).id} value={(station as any).name ?? 'Chuj'}>

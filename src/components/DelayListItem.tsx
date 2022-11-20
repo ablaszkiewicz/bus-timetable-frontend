@@ -1,4 +1,5 @@
 import { Flex, Tag, Text } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import { Delay } from '../models/Delay';
 
 interface Props {
@@ -6,9 +7,9 @@ interface Props {
 }
 
 export const DelayListItem = (props: Props) => {
-  console.log(props.delay);
   return (
     <Flex
+      as={motion.div}
       w={'100%'}
       backgroundColor={'gray.800'}
       direction={'row'}
