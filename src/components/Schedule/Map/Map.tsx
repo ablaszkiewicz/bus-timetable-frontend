@@ -15,8 +15,8 @@ export const Map = () => {
     >
       <MapContainer
         style={{ height: '100%', width: '100%', zIndex: 0 }}
-        center={[51.505, -0.09]}
-        zoom={13}
+        center={[54.372, 18.638]}
+        zoom={10}
         zoomControl={false}
       >
         <TileLayer url='https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png' />

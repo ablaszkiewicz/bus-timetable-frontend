@@ -13,7 +13,7 @@ export const DelayListItem = (props: Props) => {
       w={'100%'}
       backgroundColor={'gray.800'}
       direction={'row'}
-      p={4}
+      p={3}
       borderRadius={10}
       justifyContent={'space-between'}
     >

@@ -33,7 +33,7 @@ export const Search = () => {
   };
 
   return (
-    <Flex w={'100%'} borderRadius={15} borderBottomRadius={0} p={4} direction={'row'} zIndex={1}>
+    <Flex w={'50%'} borderRadius={15} borderBottomRadius={0} p={4} direction={'row'} zIndex={1}>
       <AutoComplete onChange={(stationName) => dispatchStation(stationName)} openOnFocus>
         <AutoCompleteInput placeholder={'Enter bus stop name...'} backgroundColor={'gray.900'} shadow={'dark-lg'} />
         <AutoCompleteList>

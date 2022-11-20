@@ -7,8 +7,8 @@ import { Timetable } from '../components/Schedule/Timetable';
 export const SchedulePage = () => {
   return (
     <Flex
-      w={'50%'}
-      h={'70%'}
+      w={'80%'}
+      h={'90%'}
       backgroundColor={'gray.700'}
       borderRadius={10}
       p={2}
@@ -19,9 +19,11 @@ export const SchedulePage = () => {
       <Favourites />
       <Flex direction={'column'} h={'100%'} w={'100%'} position={'relative'}>
         <Map />
-        <Search />
-        <Spacer />
-        <Timetable />
+        <Flex direction={'column'} h={'100%'} w={'100%'} alignItems={'end'}>
+          <Search />
+          <Spacer />
+          <Timetable />
+        </Flex>
       </Flex>
     </Flex>
   );

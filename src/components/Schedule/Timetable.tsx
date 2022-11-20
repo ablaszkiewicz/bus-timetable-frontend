@@ -7,16 +7,18 @@ export const Timetable = () => {
   const { delaysQuery } = useDelays();
 
   return (
-    <Flex p={4} h={'50%'}>
+    <Flex p={4} h={'40%'} w={'50%'}>
       <Flex
         w={'100%'}
         grow={1}
         backgroundColor={'gray.900'}
         borderRadius={15}
-        p={8}
+        p={4}
         direction={'column'}
         overflowY={'scroll'}
-        zIndex={1}
+        zIndex={0}
+        borderColor={'gray.700'}
+        borderWidth={6}
       >
         {/* <Heading fontSize={'2xl'} ml={3} mb={2}>
           Arrivals
