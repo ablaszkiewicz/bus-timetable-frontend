@@ -6,20 +6,13 @@ import { Timetable } from '../components/Schedule/Timetable';
 
 export const SchedulePage = () => {
   return (
-    <Flex
-      w={'80%'}
-      h={'90%'}
-      backgroundColor={'gray.700'}
-      borderRadius={10}
-      p={2}
-      shadow={'xl'}
-      flexDir={'row'}
-      gap={2}
-    >
-      <Favourites />
-      <Flex direction={'column'} h={'100%'} w={'100%'} position={'relative'}>
-        <Map />
-        <Flex direction={'column'} h={'100%'} w={'100%'} alignItems={'end'}>
+    <Flex w={'100%'} h={'100%'} position={'relative'}>
+      <Map />
+      <Flex w={'100%'} h={'100%'} flexDir={'row'} gap={2} justifyContent={'space-between'} p={4}>
+        <Flex direction={'column'} h={'100%'} w={'20%'}>
+          <Favourites />
+        </Flex>
+        <Flex direction={'column'} h={'100%'} w={'30%'}>
           <Search />
           <Spacer />
           <Timetable />

@@ -3,8 +3,19 @@ import { Favourite } from './Favourite';
 
 export const Favourites = () => {
   return (
-    <Flex w={'30%'} h={'100%'} backgroundColor={'gray.900'} borderRadius={15} p={2} direction={'column'}>
-      <Heading fontSize={'2xl'} ml={3} mb={2}>
+    <Flex
+      w={'100%'}
+      h={'100%'}
+      bg='rgba(26, 32, 44, 0.7)'
+      backdropFilter={'blur(10px)'}
+      borderRadius={10}
+      p={4}
+      direction={'column'}
+      zIndex={1}
+      borderColor={'gray.700'}
+      shadow={'lg'}
+    >
+      <Heading fontSize={'2xl'} mb={2}>
         Saved
       </Heading>
       <Flex w={'100%'} flexDir={'column'} gap={2}>
