@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import { BusStopResponse } from '../models/BusStop';
 import { Delay } from '../models/Delay';
 import { useStore } from '../zustand';
 
-export const STOPS_QUERY_KEY = 'stops';
+export const DELAYS_QUERY_KEY = 'delays';
 
 export const useDelays = () => {
   const stationId = useStore((store) => store.stationId);
@@ -15,7 +15,7 @@ export const useDelays = () => {
   };
 
   const delaysQuery = useQuery({
-    queryKey: [STOPS_QUERY_KEY, stationId],
+    queryKey: [DELAYS_QUERY_KEY, stationId],
     enabled: !!stationId,
     queryFn: () => getDelaysForStop(stationId),
     refetchInterval: 1000,
