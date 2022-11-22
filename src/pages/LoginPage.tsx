@@ -1,4 +1,4 @@
-import { Box, Button, Flex, FormControl, FormLabel, Heading, Input, Spacer, Text } from '@chakra-ui/react';
+import { Button, Flex, FormControl, FormLabel, Heading, Input, Text } from '@chakra-ui/react';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';

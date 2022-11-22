@@ -1,48 +1,45 @@
-import { Button, Flex, Input } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import { AutoComplete, AutoCompleteInput, AutoCompleteItem, AutoCompleteList } from '@choc-ui/chakra-autocomplete';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useDelays } from '../../hooks/useDelays';
+import { useStops } from '../../hooks/useStops';
 import { useStore } from '../../zustand';
 
 export const Search = () => {
-  const [searchValue, setSearchValue] = useState('');
-  const [stations, setStations] = useState([]);
-  const stationId = useStore((state) => state.clickedStationId);
-  const setStationId = useStore((state) => state.setClickedStationId);
+  const [searchInput, setSearchInput] = useState('');
+  const selectedBusStop = useStore((state) => state.clickedBusStop);
+  const setSelectedBusStop = useStore((state) => state.setClickedBusStop);
 
-  const { delaysQuery } = useDelays();
-
-  useEffect(() => {
-    initializeStations();
-  }, []);
+  const { stopsQuery } = useStops();
 
   useEffect(() => {
-    setSearchValue(stationId!);
-  }, [stationId]);
+    if (selectedBusStop == null) {
+      setSearchInput('');
+    } else {
+      setSearchInput(selectedBusStop.name);
+    }
+  }, [selectedBusStop]);
 
-  const initializeStations = async () => {
-    const stationsTemp = await axios.get('https://a4d7543gl0.execute-api.eu-central-1.amazonaws.com/dev/stops');
-    setStations(stationsTemp.data);
-  };
+  const dispatchBusStop = (name: string) => {
+    const busStop = stopsQuery?.data?.find((station) => (station as any).name === name);
+    setSelectedBusStop(busStop!);
+    setSearchInput(name);
 
-  const dispatchStation = (name: string) => {
-    const station = stations.find((station) => (station as any).name === name);
-    setStationId((station as any).id);
-    console.log(stationId);
+    console.log(name);
   };
 
   return (
     <Flex w={'100%'} borderRadius={15} borderBottomRadius={0} direction={'column'} zIndex={1}>
-      <AutoComplete onChange={(stationName) => dispatchStation(stationName)} openOnFocus>
+      <AutoComplete onSelectOption={(option) => dispatchBusStop(option.item.label)} openOnFocus>
         <AutoCompleteInput
           w={'100%'}
           placeholder={'Enter bus stop name...'}
           backgroundColor={'gray.900'}
           shadow={'dark-lg'}
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
         />
         <AutoCompleteList>
-          {stations.map((station) => (
+          {stopsQuery?.data?.map((station) => (
             <AutoCompleteItem key={(station as any).id} value={(station as any).name ?? 'Chuj'}>
               {(station as any).name}
             </AutoCompleteItem>

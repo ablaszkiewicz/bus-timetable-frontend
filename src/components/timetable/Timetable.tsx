@@ -2,31 +2,29 @@ import { CloseIcon } from '@chakra-ui/icons';
 import { Flex, Heading, IconButton, SlideFade } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useDelays } from '../../hooks/useDelays';
-import { useStops } from '../../hooks/useStops';
-import { BusStop } from '../../models/BusStop';
 import { useStore } from '../../zustand';
 import { DelayListItem } from './DelayListItem';
 
 export const Timetable = () => {
   const [opened, setOpened] = useState(false);
-  const [busStop, setBusStop] = useState<BusStop>();
-  const clickedStationId = useStore((state) => state.clickedStationId);
-  const setClickedBusStop = useStore((state) => state.setClickedBusStop);
+  const selectedBusStop = useStore((state) => state.clickedBusStop);
+  const setSelectedBusStop = useStore((state) => state.setClickedBusStop);
 
   const { delaysQuery } = useDelays();
-  const { getStopById } = useStops();
 
   useEffect(() => {
-    if (clickedStationId == null) {
+    if (selectedBusStop == null) {
       return;
     }
 
     setOpened(true);
-    setBusStop(getStopById(+clickedStationId!));
-  }, [clickedStationId]);
+  }, [selectedBusStop]);
 
   const close = () => {
-    setClickedBusStop(null);
+    setTimeout(() => {
+      setSelectedBusStop(null);
+    }, 100);
+
     setOpened(false);
   };
 
@@ -41,18 +39,18 @@ export const Timetable = () => {
       borderRadius={10}
       p={4}
       direction={'column'}
-      overflowY={'scroll'}
+      overflowY={'hidden'}
       zIndex={0}
       shadow={'lg'}
       gap={2}
     >
       <Flex direction={'row'} justifyContent={'space-between'}>
         <Heading fontSize={'2xl'} mb={2}>
-          {busStop?.name}
+          {selectedBusStop?.name}
         </Heading>
         <IconButton aria-label='close' icon={<CloseIcon />} onClick={() => close()} />
       </Flex>
-      <Flex direction={'column'} w={'100%'} gap={2}>
+      <Flex direction={'column'} w={'100%'} gap={2} overflowY={'scroll'}>
         {delaysQuery.data?.map((delay) => (
           <DelayListItem delay={delay} />
         ))}

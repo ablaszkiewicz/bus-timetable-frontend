@@ -9,10 +9,10 @@ interface Props {
 }
 
 export const Favourite = (props: Props) => {
-  const setStationId = useStore((state) => state.setClickedStationId);
+  const setSelectedBusStop = useStore((state) => state.setClickedBusStop);
 
   const dispatchNewStationId = () => {
-    setStationId(props.busStop.id.toString());
+    setSelectedBusStop(props.busStop);
   };
 
   return (

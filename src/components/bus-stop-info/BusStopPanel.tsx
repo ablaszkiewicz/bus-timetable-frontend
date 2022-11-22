@@ -1,16 +1,15 @@
 import { CloseIcon } from '@chakra-ui/icons';
-import { Collapse, Flex, Heading, IconButton, ScaleFade, SlideFade } from '@chakra-ui/react';
-import { AnimatePresence } from 'framer-motion';
+import { Flex, Heading, IconButton, SlideFade } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useStore } from '../../zustand';
 
 export const BusStopPanel = () => {
   const [opened, setOpened] = useState(true);
-  const clickedStationId = useStore((state) => state.clickedStationId);
+  const selectedBusStop = useStore((state) => state.clickedBusStop);
 
   useEffect(() => {
     setOpened(true);
-  }, [clickedStationId]);
+  }, [selectedBusStop]);
 
   return (
     <Flex

@@ -1,5 +1,4 @@
 import { Flex, Spacer } from '@chakra-ui/react';
-import { BusStopPanel } from '../components/bus-stop-info/BusStopPanel';
 import { Favourites } from '../components/favourites/Favourites';
 import { Map } from '../components/map/Map';
 import { Search } from '../components/search/Search';
