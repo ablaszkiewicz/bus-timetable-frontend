@@ -8,17 +8,27 @@ import { useStore } from '../../zustand';
 import { DelayListItem } from './DelayListItem';
 
 export const Timetable = () => {
-  const [opened, setOpened] = useState(true);
+  const [opened, setOpened] = useState(false);
   const [busStop, setBusStop] = useState<BusStop>();
   const clickedStationId = useStore((state) => state.clickedStationId);
+  const setClickedBusStop = useStore((state) => state.setClickedBusStop);
 
   const { delaysQuery } = useDelays();
   const { getStopById } = useStops();
 
   useEffect(() => {
+    if (clickedStationId == null) {
+      return;
+    }
+
     setOpened(true);
-    setBusStop(getStopById(+clickedStationId));
+    setBusStop(getStopById(+clickedStationId!));
   }, [clickedStationId]);
+
+  const close = () => {
+    setClickedBusStop(null);
+    setOpened(false);
+  };
 
   return (
     <Flex
@@ -40,7 +50,7 @@ export const Timetable = () => {
         <Heading fontSize={'2xl'} mb={2}>
           {busStop?.name}
         </Heading>
-        <IconButton aria-label='close' icon={<CloseIcon />} onClick={() => setOpened(false)} />
+        <IconButton aria-label='close' icon={<CloseIcon />} onClick={() => close()} />
       </Flex>
       <Flex direction={'column'} w={'100%'} gap={2}>
         {delaysQuery.data?.map((delay) => (

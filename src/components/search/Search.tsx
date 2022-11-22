@@ -18,7 +18,7 @@ export const Search = () => {
   }, []);
 
   useEffect(() => {
-    setSearchValue(stationId);
+    setSearchValue(stationId!);
   }, [stationId]);
 
   const initializeStations = async () => {

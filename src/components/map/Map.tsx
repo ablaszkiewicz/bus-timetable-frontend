@@ -5,23 +5,32 @@ import { useStops } from '../../hooks/useStops';
 import L from 'leaflet';
 import { useStore } from '../../zustand';
 import MarkerClusterGroup from './MarkerClusterGroup';
+import { useBuses } from '../../hooks/useBuses';
+
+const busStopIcon = new L.Icon({
+  iconUrl: 'bus-stop.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 20],
+});
 
 const busIcon = new L.Icon({
-  iconUrl: 'bus-icon.svg',
-  shadowUrl: 'square-rounded.png',
-  shadowSize: [30, 30],
-  shadowAnchor: [15, 15],
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
+  iconUrl: 'bus.svg',
+  iconSize: [40, 40],
+  iconAnchor: [20, 20],
 });
 
 export const Map = () => {
+  const { buses } = useBuses();
   const { stopsQuery } = useStops();
   const setClickedStationId = useStore((state) => state.setClickedStationId);
+  const setClickedBusStop = useStore((state) => state.setClickedBusStop);
+  const clickedStationId = useStore((state) => state.clickedStationId);
+  const clickedBusStop = useStore((state) => state.clickedBusStop);
 
   const onBusStopClicked = (id: string) => {
     console.log('Clicked bus stop with id ' + id);
     setClickedStationId(id);
+    setClickedBusStop(stopsQuery.data!.find((stop) => stop.id == +id)!);
   };
 
   return (
@@ -34,16 +43,29 @@ export const Map = () => {
       >
         <TileLayer url='https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png' />
         <MarkerClusterGroup>
-          {stopsQuery.data?.map((stop) => (
-            <Marker
-              position={[stop.lat, stop.lon]}
-              icon={busIcon}
-              eventHandlers={{ click: () => onBusStopClicked(stop.id.toString()) }}
-            >
-              <Tooltip>{stop.name}</Tooltip>
+          {clickedBusStop == null &&
+            stopsQuery.data?.map((stop) => (
+              <Marker
+                position={[stop.lat, stop.lon]}
+                icon={busStopIcon}
+                eventHandlers={{ click: () => onBusStopClicked(stop.id.toString()) }}
+              >
+                <Tooltip>{stop.name}</Tooltip>
+              </Marker>
+            ))}
+          {clickedBusStop != null && (
+            <Marker position={[clickedBusStop!.lat, clickedBusStop!.lon]} icon={busStopIcon}>
+              <Tooltip>asd</Tooltip>
+            </Marker>
+          )}
+        </MarkerClusterGroup>
+
+        {clickedBusStop != null &&
+          buses.map((bus) => (
+            <Marker position={[bus.lat, bus.lon]} icon={busIcon}>
+              <Tooltip>AUTOBUS</Tooltip>
             </Marker>
           ))}
-        </MarkerClusterGroup>
       </MapContainer>
     </Flex>
   );

@@ -3,4 +3,5 @@ export interface Delay {
   headsign: string;
   estimatedTime: string;
   routeId: string;
+  vehicleId: string;
 }

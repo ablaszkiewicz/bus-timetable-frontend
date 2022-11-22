@@ -16,8 +16,8 @@ export const useDelays = () => {
 
   const delaysQuery = useQuery({
     queryKey: [DELAYS_QUERY_KEY, stationId],
-    enabled: !!stationId,
-    queryFn: () => getDelaysForStop(stationId),
+    enabled: stationId != null,
+    queryFn: () => getDelaysForStop(stationId!),
     refetchInterval: 1000,
   });
 
