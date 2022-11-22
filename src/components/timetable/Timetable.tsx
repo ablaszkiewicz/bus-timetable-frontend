@@ -52,7 +52,7 @@ export const Timetable = () => {
       </Flex>
       <Flex direction={'column'} w={'100%'} gap={2} overflowY={'scroll'}>
         {delaysQuery.data?.map((delay) => (
-          <DelayListItem delay={delay} />
+          <DelayListItem key={delay.vehicleId + ' ' + delay.routeId} delay={delay} />
         ))}
       </Flex>
     </Flex>

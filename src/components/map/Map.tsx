@@ -1,4 +1,4 @@
-import { MapContainer, Marker, TileLayer, Tooltip } from 'react-leaflet';
+import { MapContainer, Marker, Popup, SVGOverlay, TileLayer, Tooltip } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useStops } from '../../hooks/useStops';
@@ -69,7 +69,21 @@ export const Map = () => {
         </MarkerClusterGroup>
 
         {selectedBusStop != null &&
-          buses.map((bus) => <Marker position={[bus.lat, bus.lon]} icon={busIcon} title='asd'></Marker>)}
+          buses.map((bus) => (
+            <>
+              <Marker position={[bus.lat, bus.lon]} icon={busIcon} />
+              <Marker
+                position={[bus.lat, bus.lon]}
+                icon={
+                  new L.DivIcon({
+                    iconSize: [0, 0],
+                    iconAnchor: [20, 0],
+                    html: `<p style="width: 38px; margin-top: 15px; text-align: center; font-weight: bold; font-size: 1.2em">${bus.routeShortName}</p>`,
+                  })
+                }
+              />
+            </>
+          ))}
       </MapContainer>
     </Flex>
   );
