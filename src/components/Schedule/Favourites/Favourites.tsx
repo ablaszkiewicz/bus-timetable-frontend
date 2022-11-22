@@ -19,8 +19,8 @@ export const Favourites = () => {
         Saved
       </Heading>
       <Flex w={'100%'} flexDir={'column'} gap={2}>
-        <Favourite busStop={{ name: 'Dworzec 1', id: 115 }} />
-        <Favourite busStop={{ name: 'Dworzec 2', id: 116 }} />
+        <Favourite busStop={{ name: 'Dworzec 1', id: 115, lat: 0, lon: 0 }} />
+        <Favourite busStop={{ name: 'Dworzec 2', id: 116, lat: 0, lon: 0 }} />
       </Flex>
     </Flex>
   );
