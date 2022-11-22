@@ -1,6 +1,6 @@
 import { Flex, Tag, Text } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { Delay } from '../models/Delay';
+import { Delay } from '../../models/Delay';
 
 interface Props {
   delay: Delay;

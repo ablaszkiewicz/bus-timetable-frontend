@@ -7,6 +7,6 @@ export interface BusStop {
   lon: number;
 }
 
-export interface BusStopResponse {
+export interface DelaysResponse {
   delay: Delay[];
 }

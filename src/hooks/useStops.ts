@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
-import { BusStop, BusStopResponse } from '../models/BusStop';
+import { BusStop, DelaysResponse } from '../models/BusStop';
 import { Delay } from '../models/Delay';
 import { useStore } from '../zustand';
 
 export const STOPS_QUERY_KEY = 'stops';
 
 export const useStops = () => {
-  const stationId = useStore((store) => store.stationId);
+  const stationId = useStore((store) => store.clickedStationId);
 
   const getStops = async (): Promise<BusStop[]> => {
     const { data } = await axios.get(`stops`);
@@ -19,5 +19,9 @@ export const useStops = () => {
     queryFn: () => getStops(),
   });
 
-  return { stopsQuery };
+  const getStopById = (id: number) => {
+    return stopsQuery.data?.find((stop) => stop.id == id);
+  };
+
+  return { stopsQuery, getStopById };
 };

@@ -8,8 +8,8 @@ import { useStore } from '../../zustand';
 export const Search = () => {
   const [searchValue, setSearchValue] = useState('');
   const [stations, setStations] = useState([]);
-  const stationId = useStore((state) => state.stationId);
-  const setStationId = useStore((state) => state.setStationId);
+  const stationId = useStore((state) => state.clickedStationId);
+  const setStationId = useStore((state) => state.setClickedStationId);
 
   const { delaysQuery } = useDelays();
 

@@ -1,7 +1,7 @@
 import { Flex, IconButton, Spacer, Text } from '@chakra-ui/react';
-import { BusStop } from '../../../models/BusStop';
+import { BusStop } from '../../models/BusStop';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
-import { useStore } from '../../../zustand';
+import { useStore } from '../../zustand';
 import { motion } from 'framer-motion';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const Favourite = (props: Props) => {
-  const setStationId = useStore((state) => state.setStationId);
+  const setStationId = useStore((state) => state.setClickedStationId);
 
   const dispatchNewStationId = () => {
     setStationId(props.busStop.id.toString());
