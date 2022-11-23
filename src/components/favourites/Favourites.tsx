@@ -1,4 +1,5 @@
 import { Button, Flex, Heading, Text } from '@chakra-ui/react';
+import { AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../hooks/useAuth';
 import { Favourite } from './Favourite';
 
@@ -21,6 +22,7 @@ export const Favourites = () => {
       <Heading fontSize={'2xl'} mb={2}>
         Saved
       </Heading>
+      <Flex></Flex>
       {isLoggedIn && (
         <Flex w={'100%'} flexDir={'column'} gap={2}>
           <Favourite busStop={{ name: 'Dworzec 1', id: 115, lat: 0, lon: 0 }} />

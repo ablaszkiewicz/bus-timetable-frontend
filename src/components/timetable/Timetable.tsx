@@ -56,7 +56,7 @@ export const Timetable = () => {
         ))}
         {delaysQuery.data?.length === 0 && (
           <Text fontSize={'xl'} textAlign={'center'} w={'100%'} opacity={0.6}>
-            No delays
+            No buses
           </Text>
         )}
       </Flex>
