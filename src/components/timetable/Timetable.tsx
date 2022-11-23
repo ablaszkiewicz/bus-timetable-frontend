@@ -5,7 +5,7 @@ import { useDelays } from '../../hooks/useDelays';
 import { useStops } from '../../hooks/useStops';
 import { useStore } from '../../zustand';
 import { DelayListItem } from './DelayListItem';
-import { AiOutlineHeart } from 'react-icons/ai';
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 
 export const Timetable = () => {
   const [opened, setOpened] = useState(false);
@@ -13,7 +13,7 @@ export const Timetable = () => {
   const setSelectedBusStop = useStore((state) => state.setClickedBusStop);
 
   const { delaysQuery } = useDelays();
-  const { addFavouriteStopMutation } = useStops();
+  const { addFavouriteStopMutation, favouriteStops } = useStops();
 
   useEffect(() => {
     if (selectedBusStop == null) {
@@ -56,7 +56,18 @@ export const Timetable = () => {
           {selectedBusStop?.name}
         </Heading>
         <Flex gap={2}>
-          <IconButton aria-label='close' icon={<AiOutlineHeart />} onClick={() => addFavourite()} />
+          {favouriteStops.some((busStop) => busStop.id == selectedBusStop?.id) && (
+            <IconButton aria-label='close' icon={<AiFillHeart />} disabled />
+          )}
+          {!favouriteStops.some((busStop) => busStop.id == selectedBusStop?.id) && (
+            <IconButton
+              aria-label='close'
+              icon={<AiOutlineHeart />}
+              isLoading={addFavouriteStopMutation.isLoading}
+              onClick={() => addFavourite()}
+            />
+          )}
+
           <IconButton aria-label='close' icon={<CloseIcon fontSize={'xs'} />} onClick={() => close()} />
         </Flex>
       </Flex>
