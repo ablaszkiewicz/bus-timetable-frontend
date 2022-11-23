@@ -16,7 +16,7 @@ export const Favourite = (props: Props) => {
   };
 
   return (
-    <Flex as={motion.div} direction={'row'} backgroundColor={'gray.800'} p={3} borderRadius={7} alignItems={'center'}>
+    <Flex direction={'row'} backgroundColor={'gray.800'} p={3} borderRadius={7} alignItems={'center'} w={'100%'}>
       <Flex direction={'column'}>
         <Text>{props.busStop.name}</Text>
         <Text opacity={0.8} fontSize={'xs'}>

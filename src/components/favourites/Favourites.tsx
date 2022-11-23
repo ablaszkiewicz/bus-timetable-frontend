@@ -1,10 +1,12 @@
 import { Button, Flex, Heading, Text } from '@chakra-ui/react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
+import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { Favourite } from './Favourite';
 
 export const Favourites = () => {
   const { isLoggedIn, logout } = useAuth();
+  const [items, setItems] = useState([0, 1]);
 
   return (
     <Flex
@@ -22,11 +24,38 @@ export const Favourites = () => {
       <Heading fontSize={'2xl'} mb={2}>
         Saved
       </Heading>
-      <Flex></Flex>
+      <Button
+        onClick={() => {
+          setItems([...items, items.length]);
+        }}
+      >
+        Add
+      </Button>
+      <Button
+        onClick={() => {
+          setItems(items.slice(1));
+        }}
+      >
+        Remove
+      </Button>
+
       {isLoggedIn && (
-        <Flex w={'100%'} flexDir={'column'} gap={2}>
-          <Favourite busStop={{ name: 'Dworzec 1', id: 115, lat: 0, lon: 0 }} />
-          <Favourite busStop={{ name: 'Dworzec 2', id: 116, lat: 0, lon: 0 }} />
+        <Flex direction={'column'} gap={2} w={'100%'}>
+          <AnimatePresence mode='popLayout'>
+            {items.map((item) => (
+              <Flex
+                as={motion.div}
+                layout
+                initial={{ scale: 0.8, opacity: 0, x: -50 }}
+                animate={{ scale: 1, opacity: 1, x: 0 }}
+                exit={{ scale: 0.8, opacity: 0, x: 20 }}
+                transition={{ type: 'spring' }}
+                key={item}
+              >
+                <Favourite busStop={{ name: 'Dworzec 1', id: 115, lat: 0, lon: 0 }} />
+              </Flex>
+            ))}
+          </AnimatePresence>
         </Flex>
       )}
       {!isLoggedIn && <Text opacity={0.7}>Log in to save your favourite bus stops</Text>}
