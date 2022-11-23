@@ -2,8 +2,10 @@ import { CloseIcon } from '@chakra-ui/icons';
 import { Flex, Heading, IconButton, SlideFade, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useDelays } from '../../hooks/useDelays';
+import { useStops } from '../../hooks/useStops';
 import { useStore } from '../../zustand';
 import { DelayListItem } from './DelayListItem';
+import { AiOutlineHeart } from 'react-icons/ai';
 
 export const Timetable = () => {
   const [opened, setOpened] = useState(false);
@@ -11,6 +13,7 @@ export const Timetable = () => {
   const setSelectedBusStop = useStore((state) => state.setClickedBusStop);
 
   const { delaysQuery } = useDelays();
+  const { addFavouriteStopMutation } = useStops();
 
   useEffect(() => {
     if (selectedBusStop == null) {
@@ -26,6 +29,10 @@ export const Timetable = () => {
     }, 100);
 
     setOpened(false);
+  };
+
+  const addFavourite = () => {
+    addFavouriteStopMutation.mutate(selectedBusStop!.id);
   };
 
   return (
@@ -48,7 +55,10 @@ export const Timetable = () => {
         <Heading fontSize={'2xl'} mb={2}>
           {selectedBusStop?.name}
         </Heading>
-        <IconButton aria-label='close' icon={<CloseIcon />} onClick={() => close()} />
+        <Flex gap={2}>
+          <IconButton aria-label='close' icon={<AiOutlineHeart />} onClick={() => addFavourite()} />
+          <IconButton aria-label='close' icon={<CloseIcon fontSize={'xs'} />} onClick={() => close()} />
+        </Flex>
       </Flex>
       <Flex direction={'column'} w={'100%'} gap={2} overflowY={'scroll'}>
         {delaysQuery.data?.map((delay) => (

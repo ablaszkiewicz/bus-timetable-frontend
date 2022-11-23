@@ -79,6 +79,7 @@ export const useAuth = () => {
       status: 'success',
       duration: 2000,
     });
+    console.log(response.token);
     navigate('/');
   };
 

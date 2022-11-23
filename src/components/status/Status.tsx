@@ -15,7 +15,6 @@ export const Status = () => {
   return (
     <Flex
       w={'100%'}
-      grow={1}
       bg='rgba(26, 32, 44, 0.7)'
       backdropFilter={'blur(10px)'}
       borderRadius={10}
