@@ -23,7 +23,7 @@ export const Favourites = () => {
       shadow={'lg'}
     >
       <Heading fontSize={'2xl'} mb={2}>
-        Saved
+        Favourites
       </Heading>
 
       {isLoggedIn && (

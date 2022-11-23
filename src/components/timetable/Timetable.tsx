@@ -6,11 +6,14 @@ import { useStops } from '../../hooks/useStops';
 import { useStore } from '../../zustand';
 import { DelayListItem } from './DelayListItem';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { useAuth } from '../../hooks/useAuth';
 
 export const Timetable = () => {
   const [opened, setOpened] = useState(false);
   const selectedBusStop = useStore((state) => state.clickedBusStop);
   const setSelectedBusStop = useStore((state) => state.setClickedBusStop);
+
+  const { isLoggedIn } = useAuth();
 
   const { delaysQuery } = useDelays();
   const { addFavouriteStopMutation, favouriteStops } = useStops();
@@ -68,7 +71,12 @@ export const Timetable = () => {
             />
           )}
 
-          <IconButton aria-label='close' icon={<CloseIcon fontSize={'xs'} />} onClick={() => close()} />
+          <IconButton
+            aria-label='close'
+            icon={<CloseIcon fontSize={'xs'} />}
+            onClick={() => close()}
+            disabled={!isLoggedIn}
+          />
         </Flex>
       </Flex>
       <Flex direction={'column'} w={'100%'} gap={2} overflowY={'scroll'}>
