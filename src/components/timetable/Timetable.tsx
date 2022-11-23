@@ -68,15 +68,11 @@ export const Timetable = () => {
               icon={<AiOutlineHeart />}
               isLoading={addFavouriteStopMutation.isLoading}
               onClick={() => addFavourite()}
+              disabled={!isLoggedIn}
             />
           )}
 
-          <IconButton
-            aria-label='close'
-            icon={<CloseIcon fontSize={'xs'} />}
-            onClick={() => close()}
-            disabled={!isLoggedIn}
-          />
+          <IconButton aria-label='close' icon={<CloseIcon fontSize={'xs'} />} onClick={() => close()} />
         </Flex>
       </Flex>
       <Flex direction={'column'} w={'100%'} gap={2} overflowY={'scroll'}>
