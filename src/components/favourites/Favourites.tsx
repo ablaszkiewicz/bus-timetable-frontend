@@ -1,7 +1,10 @@
-import { Flex, Heading } from '@chakra-ui/react';
+import { Button, Flex, Heading, Text } from '@chakra-ui/react';
+import { useAuth } from '../../hooks/useAuth';
 import { Favourite } from './Favourite';
 
 export const Favourites = () => {
+  const { isLoggedIn, logout } = useAuth();
+
   return (
     <Flex
       w={'100%'}
@@ -18,10 +21,13 @@ export const Favourites = () => {
       <Heading fontSize={'2xl'} mb={2}>
         Saved
       </Heading>
-      <Flex w={'100%'} flexDir={'column'} gap={2}>
-        <Favourite busStop={{ name: 'Dworzec 1', id: 115, lat: 0, lon: 0 }} />
-        <Favourite busStop={{ name: 'Dworzec 2', id: 116, lat: 0, lon: 0 }} />
-      </Flex>
+      {isLoggedIn && (
+        <Flex w={'100%'} flexDir={'column'} gap={2}>
+          <Favourite busStop={{ name: 'Dworzec 1', id: 115, lat: 0, lon: 0 }} />
+          <Favourite busStop={{ name: 'Dworzec 2', id: 116, lat: 0, lon: 0 }} />
+        </Flex>
+      )}
+      {!isLoggedIn && <Text opacity={0.7}>Log in to save your favourite bus stops</Text>}
     </Flex>
   );
 };

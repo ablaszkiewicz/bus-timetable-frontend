@@ -2,6 +2,7 @@ import { Flex, Spacer } from '@chakra-ui/react';
 import { Favourites } from '../components/favourites/Favourites';
 import { Map } from '../components/map/Map';
 import { Search } from '../components/search/Search';
+import { Status } from '../components/status/Status';
 import { Timetable } from '../components/timetable/Timetable';
 
 export const SchedulePage = () => {
@@ -9,8 +10,9 @@ export const SchedulePage = () => {
     <Flex w={'100%'} h={'100%'} position={'relative'}>
       <Map />
       <Flex w={'100%'} h={'100%'} flexDir={'row'} gap={4} p={4}>
-        <Flex direction={'column'} h={'100%'} w={'20%'}>
+        <Flex direction={'column'} h={'100%'} w={'20%'} gap={4}>
           <Favourites />
+          <Status />
         </Flex>
         <Spacer />
         <Flex direction={'column'} h={'100%'} w={'30%'}>

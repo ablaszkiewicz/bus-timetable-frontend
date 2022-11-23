@@ -1,6 +1,7 @@
 import { useToast } from '@chakra-ui/react';
 import axios from 'axios';
 import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { CreateUserDto } from '../models/User';
 import { useStore } from '../zustand';
 
@@ -12,6 +13,7 @@ interface LoginResponse {
 export const useAuth = () => {
   const toast = useToast();
   const loginToStore = useStore((state) => state.login);
+  const navigate = useNavigate();
 
   const googleLogin = async (token: string) => {
     const response = await axios.post('auth/google/login', { googleToken: token });
@@ -48,9 +50,10 @@ export const useAuth = () => {
   const registerMutation = useMutation(register, {
     onSuccess: async () => {
       toast({
-        title: 'Account create.',
-        description: "We've created your account for you",
+        title: 'Account created.',
+        description: "We've created an account for you",
         status: 'success',
+        duration: 2000,
       });
     },
   });
@@ -69,13 +72,26 @@ export const useAuth = () => {
   });
 
   const onSuccessfulLogin = (response: LoginResponse) => {
-    loginToStore(response.email, response.token);
+    loginToStore({ email: response.email, token: response.token });
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.token;
     toast({
       title: 'Logged in',
       status: 'success',
+      duration: 2000,
+    });
+    navigate('/');
+  };
+
+  const isLoggedIn = useStore((state) => state.user != null);
+
+  const logout = () => {
+    loginToStore(null);
+    toast({
+      title: 'Logged out',
+      status: 'success',
+      duration: 2000,
     });
   };
 
-  return { googleLoginMutation, githubLoginMutation, registerMutation, loginMutation };
+  return { googleLoginMutation, githubLoginMutation, registerMutation, loginMutation, isLoggedIn, logout };
 };

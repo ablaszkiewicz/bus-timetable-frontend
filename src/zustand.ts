@@ -1,21 +1,20 @@
 import axios from 'axios';
 import create from 'zustand';
 import { BusStop } from './models/BusStop';
+import { User } from './models/User';
 
 interface State {
   clickedBusStop: BusStop | null;
   setClickedBusStop: (busStop: BusStop | null) => void;
-  token: string;
-  email: string;
-  login: (email: string, token: string) => void;
+  user: User | null;
+  login: (user: User | null) => void;
 }
 
 export const useStore = create<State>((set) => ({
   clickedBusStop: null,
   setClickedBusStop: (busStop: BusStop | null) => set({ clickedBusStop: busStop }),
-  token: '',
-  email: '',
-  login: (email: string, token: string) => set({ email, token }),
+  user: null,
+  login: (user: User | null) => set({ user }),
 }));
 
-axios.defaults.headers.common['Authorization'] = 'Bearer ' + useStore.getState().token;
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + useStore.getState().user?.token;

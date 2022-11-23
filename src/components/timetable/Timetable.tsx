@@ -1,5 +1,5 @@
 import { CloseIcon } from '@chakra-ui/icons';
-import { Flex, Heading, IconButton, SlideFade } from '@chakra-ui/react';
+import { Flex, Heading, IconButton, SlideFade, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useDelays } from '../../hooks/useDelays';
 import { useStore } from '../../zustand';
@@ -54,6 +54,11 @@ export const Timetable = () => {
         {delaysQuery.data?.map((delay) => (
           <DelayListItem key={delay.vehicleId + ' ' + delay.routeId} delay={delay} />
         ))}
+        {delaysQuery.data?.length === 0 && (
+          <Text fontSize={'xl'} textAlign={'center'} w={'100%'} opacity={0.6}>
+            No delays
+          </Text>
+        )}
       </Flex>
     </Flex>
   );

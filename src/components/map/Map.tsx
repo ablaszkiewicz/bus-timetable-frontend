@@ -77,8 +77,8 @@ export const Map = () => {
                 icon={
                   new L.DivIcon({
                     iconSize: [0, 0],
-                    iconAnchor: [20, 0],
-                    html: `<p style="width: 38px; margin-top: 15px; text-align: center; font-weight: bold; font-size: 1.2em">${bus.routeShortName}</p>`,
+                    iconAnchor: [16, -2],
+                    html: `<p style="width: 30px; margin-top: 15px; text-align: center; font-weight: bold; font-size: 1.2em; background-color: white; color: black; border-radius: 5px">${bus.routeShortName}</p>`,
                   })
                 }
               />
