@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { CreateUserDto } from '../models/User';
-import { useStore } from '../zustand';
+import { useAuthStore, useStore } from '../zustand';
 
 interface LoginResponse {
   email: string;
@@ -12,7 +12,7 @@ interface LoginResponse {
 
 export const useAuth = () => {
   const toast = useToast();
-  const loginToStore = useStore((state) => state.login);
+  const loginToStore = useAuthStore((state) => state.login);
   const navigate = useNavigate();
 
   const googleLogin = async (token: string) => {
@@ -83,7 +83,7 @@ export const useAuth = () => {
     navigate('/');
   };
 
-  const isLoggedIn = useStore((state) => state.user != null);
+  const isLoggedIn = useAuthStore((state) => state.user != null);
 
   const logout = () => {
     loginToStore(null);

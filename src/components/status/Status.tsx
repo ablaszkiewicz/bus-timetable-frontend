@@ -1,10 +1,10 @@
 import { Button, Flex, StatHelpText, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { useStore } from '../../zustand';
+import { useAuthStore, useStore } from '../../zustand';
 
 export const Status = () => {
-  const user = useStore((state) => state.user);
+  const user = useAuthStore((state) => state.user);
   const { isLoggedIn, logout } = useAuth();
   const navigate = useNavigate();
 

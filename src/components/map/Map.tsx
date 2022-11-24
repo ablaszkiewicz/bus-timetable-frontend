@@ -1,4 +1,4 @@
-import { MapContainer, Marker, Popup, SVGOverlay, TileLayer, Tooltip } from 'react-leaflet';
+import { MapContainer, Marker, Popup, SVGOverlay, TileLayer, Tooltip, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useStops } from '../../hooks/useStops';
@@ -6,7 +6,7 @@ import L, { Map as LeafletMap } from 'leaflet';
 import { useStore } from '../../zustand';
 import MarkerClusterGroup from './MarkerClusterGroup';
 import { useBuses } from '../../hooks/useBuses';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 
 const busStopIcon = new L.Icon({
   iconUrl: 'bus-stop.svg',
@@ -53,6 +53,7 @@ export const Map = () => {
           {selectedBusStop == null &&
             stopsQuery.data?.map((stop) => (
               <Marker
+                key={stop.id}
                 position={[stop.lat, stop.lon]}
                 icon={busStopIcon}
                 eventHandlers={{ click: () => onBusStopClicked(stop.id.toString()) }}
@@ -70,7 +71,8 @@ export const Map = () => {
 
         {selectedBusStop != null &&
           buses.map((bus) => (
-            <>
+            <Fragment key={bus.vehicleId}>
+              <GeoJSON data={bus.routeGeoJson! as any} />
               <Marker position={[bus.lat, bus.lon]} icon={busIcon} />
               <Marker
                 position={[bus.lat, bus.lon]}
@@ -82,7 +84,7 @@ export const Map = () => {
                   })
                 }
               />
-            </>
+            </Fragment>
           ))}
       </MapContainer>
     </Flex>

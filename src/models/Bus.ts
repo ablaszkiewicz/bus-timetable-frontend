@@ -3,4 +3,6 @@ export interface Bus {
   lat: number;
   lon: number;
   routeShortName: string;
+  tripId: string;
+  routeGeoJson?: {};
 }

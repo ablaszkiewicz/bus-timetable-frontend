@@ -63,7 +63,7 @@ export const useStops = () => {
       return;
     }
 
-    setFavouriteStops(favouriteStopsQuery.data!.map(getStopById) as BusStop[]);
+    setFavouriteStops((favouriteStopsQuery.data!.map(getStopById) as BusStop[]).filter((stop) => stop != undefined));
   }, [stopsQuery.data, favouriteStopsQuery.data]);
 
   return { stopsQuery, getStopById, addFavouriteStopMutation, favouriteStops, removeFavouriteStopMutation };

@@ -29,7 +29,7 @@ export const Timetable = () => {
   const close = () => {
     setTimeout(() => {
       setSelectedBusStop(null);
-    }, 100);
+    }, 300);
 
     setOpened(false);
   };
