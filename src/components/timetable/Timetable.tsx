@@ -27,10 +27,7 @@ export const Timetable = () => {
   }, [selectedBusStop]);
 
   const close = () => {
-    setTimeout(() => {
-      setSelectedBusStop(null);
-    }, 300);
-
+    setSelectedBusStop(null);
     setOpened(false);
   };
 

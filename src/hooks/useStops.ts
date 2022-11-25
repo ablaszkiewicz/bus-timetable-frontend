@@ -7,7 +7,7 @@ import { useAuth } from './useAuth';
 
 export const STOPS_QUERY_KEY = 'stops';
 export const FAVOURITE_STOPS_QUERY_KEY = 'favouriteStops';
-export const ZOOM_TRESHOLD = 14;
+export const ZOOM_TRESHOLD = 15;
 
 export const useStops = () => {
   const queryClient = useQueryClient();
