@@ -1,23 +1,37 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { BusStop } from '../models/BusStop';
+import { useStore } from '../zustand';
 import { useAuth } from './useAuth';
 
 export const STOPS_QUERY_KEY = 'stops';
 export const FAVOURITE_STOPS_QUERY_KEY = 'favouriteStops';
+export const ZOOM_TRESHOLD = 14;
 
 export const useStops = () => {
+  const queryClient = useQueryClient();
   const [favouriteStops, setFavouriteStops] = useState<BusStop[]>([]);
   const { isLoggedIn } = useAuth();
+  const bounds = useStore((state) => state.bounds);
+  const zoom = useStore((state) => state.zoom);
+
+  useEffect(() => {
+    if (zoom < ZOOM_TRESHOLD) {
+      queryClient.setQueriesData(STOPS_QUERY_KEY, []);
+    }
+  }, [zoom]);
 
   const getStops = async (): Promise<BusStop[]> => {
-    const { data } = await axios.get(`stops`);
+    const { data } = await axios.get(
+      `stops/extent?xMin=${bounds.xMin}&xMax=${bounds.xMax}&yMin=${bounds.yMin}&yMax=${bounds.yMax}`
+    );
     return data;
   };
 
   const stopsQuery = useQuery({
-    queryKey: [STOPS_QUERY_KEY],
+    queryKey: [STOPS_QUERY_KEY, bounds],
+    enabled: zoom >= ZOOM_TRESHOLD,
     queryFn: () => getStops(),
   });
 

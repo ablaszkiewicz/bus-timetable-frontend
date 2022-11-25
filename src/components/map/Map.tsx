@@ -6,7 +6,8 @@ import L, { Map as LeafletMap } from 'leaflet';
 import { useStore } from '../../zustand';
 import MarkerClusterGroup from './MarkerClusterGroup';
 import { useBuses } from '../../hooks/useBuses';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
+import { BusStop } from '../../models/BusStop';
 
 const busStopIcon = new L.Icon({
   iconUrl: 'bus-stop.svg',
@@ -26,6 +27,38 @@ export const Map = () => {
   const { stopsQuery } = useStops();
   const setSelectedBusStop = useStore((state) => state.setClickedBusStop);
   const selectedBusStop = useStore((state) => state.clickedBusStop);
+  const setBounds = useStore((state) => state.setBounds);
+  const [busStops, setBusStops] = useState<BusStop[]>([]);
+  const setZoom = useStore((state) => state.setZoom);
+
+  useEffect(() => {
+    if (stopsQuery.data) {
+      setBusStops(stopsQuery.data);
+    }
+  }, [stopsQuery.data]);
+
+  useEffect(() => {
+    if (!map) {
+      return;
+    }
+
+    map.on('moveend', (e) => {
+      const bounds = map.getBounds();
+      const zoom = map.getZoom();
+      setZoom(zoom);
+      console.log(zoom);
+      setBounds({
+        xMin: bounds.getSouthWest().lng - 0.005,
+        xMax: bounds.getNorthEast().lng + 0.005,
+        yMin: bounds.getSouthWest().lat - 0.005,
+        yMax: bounds.getNorthEast().lat + 0.005,
+      });
+    });
+
+    return () => {
+      map.off('moveend');
+    };
+  }, [map]);
 
   useEffect(() => {
     if (selectedBusStop == null) {
@@ -36,6 +69,7 @@ export const Map = () => {
   }, [selectedBusStop]);
 
   const onBusStopClicked = (id: string) => {
+    console.log(map!.getBounds());
     setSelectedBusStop(stopsQuery.data!.find((stop) => stop.id === +id)!);
   };
 
@@ -49,25 +83,24 @@ export const Map = () => {
         ref={setMap as any}
       >
         <TileLayer url='https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png' />
-        <MarkerClusterGroup>
-          {selectedBusStop == null &&
-            stopsQuery.data?.map((stop) => (
-              <Marker
-                key={stop.id}
-                position={[stop.lat, stop.lon]}
-                icon={busStopIcon}
-                eventHandlers={{ click: () => onBusStopClicked(stop.id.toString()) }}
-              >
-                <Box width={'100px'} height={'100px'} backgroundColor={'white'}></Box>
-                <Tooltip>{stop.name}</Tooltip>
-              </Marker>
-            ))}
-          {selectedBusStop != null && (
-            <Marker position={[selectedBusStop!.lat, selectedBusStop!.lon]} icon={busStopIcon}>
-              <Tooltip>{selectedBusStop.name}</Tooltip>
+        {selectedBusStop == null &&
+          busStops.map((stop) => (
+            <Marker
+              key={stop.id}
+              position={[stop.lat, stop.lon]}
+              icon={busStopIcon}
+              eventHandlers={{ click: () => onBusStopClicked(stop.id.toString()) }}
+            >
+              <Box width={'100px'} height={'100px'} backgroundColor={'white'}></Box>
+              <Tooltip>{stop.name}</Tooltip>
             </Marker>
-          )}
-        </MarkerClusterGroup>
+          ))}
+
+        {selectedBusStop != null && (
+          <Marker position={[selectedBusStop!.lat, selectedBusStop!.lon]} icon={busStopIcon}>
+            <Tooltip>{selectedBusStop.name}</Tooltip>
+          </Marker>
+        )}
 
         {selectedBusStop != null &&
           buses.map((bus) => (

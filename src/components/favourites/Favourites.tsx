@@ -6,7 +6,7 @@ import { useStops } from '../../hooks/useStops';
 import { Favourite } from './Favourite';
 
 export const Favourites = () => {
-  const { isLoggedIn, logout } = useAuth();
+  const { isLoggedIn } = useAuth();
   const { favouriteStops } = useStops();
 
   return (
