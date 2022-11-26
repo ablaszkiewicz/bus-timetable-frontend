@@ -16,6 +16,7 @@ export const useStops = () => {
   const { isLoggedIn } = useAuth();
   const bounds = useStore((state) => state.bounds);
   const zoom = useStore((state) => state.zoom);
+  const selectedBusStop = useStore((state) => state.clickedBusStop);
 
   useEffect(() => {
     if (zoom < ZOOM_TRESHOLD) {
@@ -42,7 +43,7 @@ export const useStops = () => {
 
   const stopsWithinExtentQuery = useQuery({
     queryKey: [STOPS_QUERY_KEY, bounds],
-    enabled: zoom >= ZOOM_TRESHOLD,
+    enabled: zoom >= ZOOM_TRESHOLD && selectedBusStop == null,
     queryFn: () => getStopsWithinExtent(),
   });
 

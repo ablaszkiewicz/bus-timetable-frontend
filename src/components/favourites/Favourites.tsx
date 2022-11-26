@@ -1,4 +1,4 @@
-import { Button, Flex, Heading, Text } from '@chakra-ui/react';
+import { Button, Flex, Heading, Spacer, Spinner, Text } from '@chakra-ui/react';
 import { AnimatePresence, motion, MotionConfig } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
@@ -7,7 +7,7 @@ import { Favourite } from './Favourite';
 
 export const Favourites = () => {
   const { isLoggedIn } = useAuth();
-  const { favouriteStops } = useStops();
+  const { favouriteStops, allStopsQuery } = useStops();
 
   return (
     <Flex
@@ -22,9 +22,12 @@ export const Favourites = () => {
       borderColor={'gray.700'}
       shadow={'lg'}
     >
-      <Heading fontSize={'2xl'} mb={2}>
-        Favourites
-      </Heading>
+      <Flex alignItems={'center'}>
+        <Heading fontSize={'2xl'} mb={2}>
+          Favourites
+        </Heading>
+        {allStopsQuery.isLoading && <Spinner ml={3} size={'sm'} />}
+      </Flex>
 
       {isLoggedIn && (
         <Flex direction={'column'} gap={2} w={'100%'}>
