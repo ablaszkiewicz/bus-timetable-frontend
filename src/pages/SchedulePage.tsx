@@ -4,7 +4,8 @@ import { Map } from '../components/map/Map';
 import { Search } from '../components/search/Search';
 import { Status } from '../components/status/Status';
 import { Timetable } from '../components/timetable/Timetable';
-import { ZoomStatus } from '../components/zoom-status/ZoomStatus';
+import { ZoomStatus } from '../components/statuses/ZoomStatus';
+import { LoadingStatus } from '../components/statuses/LoadingStatus';
 
 export const SchedulePage = () => {
   return (
@@ -18,6 +19,9 @@ export const SchedulePage = () => {
         <Spacer />
         <Flex direction={'column'} h={'100%'} gap={4}>
           <ZoomStatus />
+        </Flex>
+        <Flex direction={'column'} h={'100%'} gap={4}>
+          <LoadingStatus />
         </Flex>
         <Spacer />
         <Flex direction={'column'} h={'100%'} w={'30%'}>

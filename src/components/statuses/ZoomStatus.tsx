@@ -18,6 +18,7 @@ export const ZoomStatus = () => {
       zIndex={0}
       shadow={'lg'}
       gap={2}
+      position={'absolute'}
     >
       Zoom in to see the stops
     </Flex>
