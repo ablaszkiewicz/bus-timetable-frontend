@@ -24,7 +24,7 @@ const busIcon = new L.Icon({
 export const Map = () => {
   const [map, setMap] = useState<LeafletMap>();
   const { buses } = useBuses();
-  const { stopsQuery } = useStops();
+  const { stopsWithinExtentQuery } = useStops();
   const setSelectedBusStop = useStore((state) => state.setClickedBusStop);
   const selectedBusStop = useStore((state) => state.clickedBusStop);
   const setBounds = useStore((state) => state.setBounds);
@@ -32,10 +32,10 @@ export const Map = () => {
   const setZoom = useStore((state) => state.setZoom);
 
   useEffect(() => {
-    if (stopsQuery.data) {
-      setBusStops(stopsQuery.data);
+    if (stopsWithinExtentQuery.data) {
+      setBusStops(stopsWithinExtentQuery.data);
     }
-  }, [stopsQuery.data]);
+  }, [stopsWithinExtentQuery.data]);
 
   useEffect(() => {
     if (!map) {
@@ -70,7 +70,7 @@ export const Map = () => {
 
   const onBusStopClicked = (id: string) => {
     console.log(map!.getBounds());
-    setSelectedBusStop(stopsQuery.data!.find((stop) => stop.id === +id)!);
+    setSelectedBusStop(stopsWithinExtentQuery.data!.find((stop) => stop.id === +id)!);
   };
 
   return (

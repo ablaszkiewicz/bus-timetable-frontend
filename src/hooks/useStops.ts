@@ -5,6 +5,7 @@ import { BusStop } from '../models/BusStop';
 import { useStore } from '../zustand';
 import { useAuth } from './useAuth';
 
+export const ALL_STOPS_QUERY_KEY = 'allStops';
 export const STOPS_QUERY_KEY = 'stops';
 export const FAVOURITE_STOPS_QUERY_KEY = 'favouriteStops';
 export const ZOOM_TRESHOLD = 15;
@@ -22,17 +23,27 @@ export const useStops = () => {
     }
   }, [zoom]);
 
-  const getStops = async (): Promise<BusStop[]> => {
+  const getStopsWithinExtent = async (): Promise<BusStop[]> => {
     const { data } = await axios.get(
       `stops/extent?xMin=${bounds.xMin}&xMax=${bounds.xMax}&yMin=${bounds.yMin}&yMax=${bounds.yMax}`
     );
     return data;
   };
 
-  const stopsQuery = useQuery({
+  const getAllStops = async (): Promise<BusStop[]> => {
+    const { data } = await axios.get(`stops`);
+    return data;
+  };
+
+  const allStopsQuery = useQuery({
+    queryKey: [ALL_STOPS_QUERY_KEY],
+    queryFn: () => getAllStops(),
+  });
+
+  const stopsWithinExtentQuery = useQuery({
     queryKey: [STOPS_QUERY_KEY, bounds],
     enabled: zoom >= ZOOM_TRESHOLD,
-    queryFn: () => getStops(),
+    queryFn: () => getStopsWithinExtent(),
   });
 
   const favouriteStopsQuery = useQuery({
@@ -42,7 +53,7 @@ export const useStops = () => {
   });
 
   const getStopById = (id: number) => {
-    return stopsQuery.data?.find((stop) => stop.id === id);
+    return allStopsQuery.data?.find((stop) => stop.id === id);
   };
 
   const getFavouriteStops = async (): Promise<number[]> => {
@@ -78,7 +89,14 @@ export const useStops = () => {
     }
 
     setFavouriteStops((favouriteStopsQuery.data!.map(getStopById) as BusStop[]).filter((stop) => stop != undefined));
-  }, [stopsQuery.data, favouriteStopsQuery.data]);
+  }, [allStopsQuery.data, favouriteStopsQuery.data]);
 
-  return { stopsQuery, getStopById, addFavouriteStopMutation, favouriteStops, removeFavouriteStopMutation };
+  return {
+    stopsWithinExtentQuery,
+    getStopById,
+    addFavouriteStopMutation,
+    favouriteStops,
+    removeFavouriteStopMutation,
+    allStopsQuery,
+  };
 };

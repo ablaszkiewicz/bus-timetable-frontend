@@ -9,7 +9,7 @@ export const Search = () => {
   const selectedBusStop = useStore((state) => state.clickedBusStop);
   const setSelectedBusStop = useStore((state) => state.setClickedBusStop);
 
-  const { stopsQuery } = useStops();
+  const { allStopsQuery } = useStops();
 
   useEffect(() => {
     if (selectedBusStop == null) {
@@ -20,7 +20,7 @@ export const Search = () => {
   }, [selectedBusStop]);
 
   const dispatchBusStop = (name: string) => {
-    const busStop = stopsQuery?.data?.find((station) => (station as any).name === name);
+    const busStop = allStopsQuery?.data?.find((station) => (station as any).name === name);
     setSelectedBusStop(busStop!);
     setSearchInput(name);
 
@@ -39,8 +39,8 @@ export const Search = () => {
           onChange={(e) => setSearchInput(e.target.value)}
         />
         <AutoCompleteList>
-          {stopsQuery?.data?.map((station) => (
-            <AutoCompleteItem key={(station as any).id} value={(station as any).name ?? 'Chuj'}>
+          {allStopsQuery?.data?.map((station) => (
+            <AutoCompleteItem key={(station as any).id} value={(station as any).name ?? ''}>
               {(station as any).name}
             </AutoCompleteItem>
           ))}

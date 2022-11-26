@@ -43,7 +43,7 @@ const theme = extendTheme({ config });
 const queryClient = new QueryClient();
 
 axios.defaults.baseURL = 'http://localhost:3001';
-//axios.defaults.baseURL = 'https://a4d7543gl0.execute-api.eu-central-1.amazonaws.com/dev';
+axios.defaults.baseURL = 'https://a4d7543gl0.execute-api.eu-central-1.amazonaws.com/dev';
 
 if (process.env.NODE_ENV == 'production') {
   axios.defaults.baseURL = 'https://a4d7543gl0.execute-api.eu-central-1.amazonaws.com/dev';
